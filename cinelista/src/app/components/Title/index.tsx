@@ -5,6 +5,7 @@ type Props = {
 };
 
 const Title = ({ title }: Props) => {
+  
   return <h2 className={styles.title}>{title}</h2>;
 };
 

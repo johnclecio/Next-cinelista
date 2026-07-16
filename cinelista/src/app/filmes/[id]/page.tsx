@@ -10,6 +10,8 @@ type Props = {
   }>;
 };
 
+const IMG_BASE = process.env.NEXT_PUBLIC_TMDB_API_IMG_URL?.replace(/\/$/, '');
+
 export const generateMetadata = async ({ params }: Props) => {
   const { id } = await params;
 
@@ -23,9 +25,7 @@ export const generateMetadata = async ({ params }: Props) => {
     openGraph: {
       title: `${details.title} | Cinelista`,
       description: details.overview,
-      images: [
-        `${process.env.NEXT_PUBLIC_TMDB_API_IMG_URL}${details.poster_path}`,
-      ],
+      images: [`${IMG_BASE}${details.poster_path}`],
     },
   };
 };
@@ -50,8 +50,11 @@ export default async function DetalheFilme({ params }: Props) {
             <figure>
               <Image
                 className={styles.detalhes_imagem}
-                src={`${process.env.NEXT_PUBLIC_TMDB_API_IMG_URL}${poster_path}`}
+                src={`${IMG_BASE}${poster_path}`}
                 alt={`Poster de filme: ${title}`}
+                width={300}
+                height={400}
+                priority
               />
             </figure>
             <article className={styles.detalhes_info}>
