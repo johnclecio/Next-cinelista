@@ -1,0 +1,29 @@
+# Nome dp workfloe, aparece na "Actions"
+name: Pipeline CI/CD
+# Definir quando o pepeline será disparado
+
+on: 
+  push:
+    branches:
+      - main
+  workflow_dispatch: # habilitar o botão "Run workflow" no Github Actions
+  
+jobs:
+  # Primeiro job: build
+  build:
+    runs-on: ubuntu-latest # Imagem de maquina usada na CI
+
+    
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v6
+
+      - name: Instalação do Node
+        uses: actions/setup-node@v7
+        
+        with:
+          node-version: '24'
+      - name: Instalação das dependências    
+        run: npm install
+      - name: Rodar o build  
+        run: npm run build
