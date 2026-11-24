@@ -27,3 +27,10 @@ jobs:
         run: npm install
       - name: Rodar o build  
         run: npm run build
+
+        env:
+          # Variáveis do lado do servidor (Não são expostas ao browser);
+          TMDB_API_URL: ${{vars.TMDB_API_URL}}
+          TMDB_API_KEY: ${{secrets.TMDB_API_KEY}}
+          # Variáveis do lado do cliente (São expostas ao browser);
+          NEXT_PUBLIC_TMDB_API_IMG_URL: ${{vars.NEXT_PUBLIC_TMDB_API_IMG_URL}}
