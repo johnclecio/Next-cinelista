@@ -79,7 +79,7 @@ jobs:
       # Verifica a formatação com Prettier
       - name: Verificar formatação
         working-directory: cinelista
-        run: npm run format -- --check
+        run: npm run format:check
 
       # Executa os testes com Jest
       - name: Rodar testes
