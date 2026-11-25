@@ -6,9 +6,11 @@ export default async function Home() {
   const filmes = await getTrendindMovies();
   return (
     <>
-      <Title title="Destaque" />
+      <Title title="Filmes em destaque" />
 
-      <Grid filmes={filmes} />
+      {
+        filmes && filmes.length > 0 ? (<Grid filmes={filmes}/> ) : (<p>Nenhum filme foi encontrado</p>)
+      }
     </>
   );
 }
