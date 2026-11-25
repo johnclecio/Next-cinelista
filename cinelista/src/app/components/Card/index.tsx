@@ -9,12 +9,11 @@ type Props = {
   priority?: boolean;
 };
 
-const IMG_BASE = process.env.NEXT_PUBLIC_TMDB_API_IMG_URL?.replace(/\/$/, "");
+const IMG_BASE = process.env.NEXT_PUBLIC_TMDB_API_IMG_URL?.replace(/\/$/, '');
 
-const Card = ({ filme , priority = false}: Props) => {
+const Card = ({ filme, priority = false }: Props) => {
   const { id, title, poster_path, overview, vote_average } = filme;
-  const resume = useResumoFilme(overview, 256)
-    
+  const resume = useResumoFilme(overview, 256);
 
   return (
     <div className={styles.card} key={id}>

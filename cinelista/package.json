@@ -2,12 +2,13 @@
   "name": "cinelista",
   "version": "0.1.0",
   "private": true,
- "scripts": {
+  "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "format": "prettier . --check",
+    "format": "prettier . --write",
+    "format:check": "prettier . --check",
     "test": "jest --ci"
   },
   "dependencies": {
