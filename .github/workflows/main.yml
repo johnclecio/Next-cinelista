@@ -18,9 +18,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout do código
-        uses: actions/checkout@v6
-
       - name: Instalação do Node
         uses: actions/setup-node@v7
         with:
@@ -29,9 +26,11 @@ jobs:
           cache-dependency-path: cinelista/package-lock.json
 
       - name: Instalação das dependências
+        working-directory: cinelista
         run: npm ci
-
+      
       - name: Rodar o build
+        working-directory: cinelista
         run: npm run build
         env:
           TMDB_API_URL: ${{ vars.TMDB_API_URL }}
@@ -43,24 +42,18 @@ jobs:
     needs: build
 
     steps:
-      - name: Checkout do código
-        uses: actions/checkout@v6
+     - name: Instalação das dependências
+       working-directory: cinelista
+       run: npm ci
 
-      - name: Instalação do Node
-        uses: actions/setup-node@v7
-        with:
-          node-version: "20"
-          cache: npm
-          cache-dependency-path: cinelista/package-lock.json
-
-      - name: Instalação das dependências
-        run: npm ci
-
-      - name: Rodar lint
-        run: npm run lint
-
-      - name: Verificar formatação
-        run: npm run format
-
-      - name: Rodar testes
-        run: npm run test
+     - name: Rodar lint
+       working-directory: cinelista
+       run: npm run lint
+    
+     - name: Verificar formatação
+       working-directory: cinelista
+       run: npm run format
+    
+     - name: Rodar testes
+       working-directory: cinelista
+       run: npm run test
