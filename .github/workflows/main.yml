@@ -4,16 +4,15 @@ on:
   push:
     branches:
       - main
-
-  workflow_dispatch:
+    paths: # só dispara se arquivos nessas pastas mudarem
+      - "src/**" # só mudanças no código fonte
+      - ".github/workflows/**" # mudanças nos próprios pipelines
+  workflow_dispatch: # habilitar o botão "Run workflow" no Github Actions
 
 jobs:
+  # Primeiro job: build
   build:
-    runs-on: ubuntu-latest
-
-    defaults:
-      run:
-        working-directory: ./cinelista
+    runs-on: ubuntu-latest # Imagem da maquina usada no CI
 
     steps:
       - name: Checkout do código
@@ -22,10 +21,12 @@ jobs:
       - name: Instalação do Node
         uses: actions/setup-node@v7
         with:
-          node-version: '24'
+          node-version: '20'
+        cache: "npm"
+        cache-dependency-path: package-lock.json
 
       - name: Instalação das dependências
-        run: npm ci
+        run: npm install
 
       - name: Rodar o build
         run: npm run build
@@ -33,3 +34,32 @@ jobs:
           TMDB_API_URL: ${{ vars.TMDB_API_URL }}
           TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
           NEXT_PUBLIC_TMDB_API_IMG_URL: ${{ vars.NEXT_PUBLIC_TMDB_API_IMG_URL }}
+
+   tests:
+     runs-on: ubuntu-latest # Imagem da maquina usada no CI
+     needs: build
+
+     steps:
+        - name: Checkout do código
+          uses: actions/checkout@v6
+
+        - name: Instalação do Node
+          uses: actions/setup-node@v7
+          with:
+            node-version: '20'
+          cache: "npm"
+          cache-dependency-path: package-lock.json
+  
+        - name: Instalação das dependências
+          run: npm install
+  
+        - name: Rodar lint
+          run: npm run lint
+
+        - name: Verificar formatação
+          run: npm run format -- -- check
+
+        - name: Rodar testes
+          run: npm run test
+         
+         
