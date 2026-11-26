@@ -104,13 +104,9 @@ jobs:
             cache-dependency-path: cinelista/package-lock.json
   
         # Instala as dependências
-        - name: Instalação do Vercel CI
-          run: npm install -g vercel@latest
-  
-        # Executa o ESLint
         - name: Deploy para Vercel
-          run: vercel --prod --yes --token=${{secrets.VERCEL_TOKEN}}
-
+          working-directory: cinelista
+          run: vercel --prod --yes --token=${{ secrets.VERCEL_TOKEN }}
           env:
             VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
             VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
