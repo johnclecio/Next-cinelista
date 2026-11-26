@@ -85,3 +85,34 @@ jobs:
       - name: Rodar testes
         working-directory: cinelista
         run: npm run test
+
+  deploy:
+      runs-on: ubuntu-latest
+      needs: tests
+
+      steps:
+        # Baixa o código do repositório
+        - name: Checkout do código
+          uses: actions/checkout@v6
+  
+        # Instala o Node.js
+        - name: Instalação do Node
+          uses: actions/setup-node@v7
+          with:
+            node-version: "20"
+            cache: npm
+            cache-dependency-path: cinelista/package-lock.json
+  
+        # Instala as dependências
+        - name: Instalação do Vercel CI
+          run: npm install -g vercel@latest
+  
+        # Executa o ESLint
+        - name: Deploy para Vercel
+          run: vercel --prod --yes --token-${{secrets.VERCEL_TOKEN}}
+
+          env:
+            VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+            VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+  
+         
