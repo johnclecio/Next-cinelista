@@ -85,7 +85,7 @@ jobs:
       - name: Rodar testes
         working-directory: cinelista
         run: npm run test
-
+# agora
   deploy:
     runs-on: ubuntu-latest
     needs: tests
